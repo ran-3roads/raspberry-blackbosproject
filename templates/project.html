@@ -1,34 +1,54 @@
 <!DOCTYPE html>
 <html>
-   <head>
-      <meta charset="utf-8">
-      <title>택배 블랙박스</title>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js" type="text/javascript"></script>
-      <script src="/static/mqttio6.js" type="text/javascript"></script>
-      <script>
-            window.onload = function () {
-                // http://223.194.159.225:8080/에서 224...의 IP만 끊어내는 코드
-                var url = new String(document.location);
-                ip = (url.split("//"))[1]; // ip = "223.194.159.225:8080/"
-                ip = (ip.split(":"))[0]; // ip = "223.194.159.225"
-                document.getElementById("broker").value = ip
-            }
-      </script>
-   </head>
-   <body>
-         <h3>Delivery Black Box</h3>
-         <hr>
-         <form id="connection-form">
+
+<head>
+    <meta charset="utf-8">
+    <title>택배 블랙박스</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.2/mqttws31.min.js"
+        type="text/javascript"></script>
+    <script src="/static/mqttio6.js" type="text/javascript"></script>
+    <style>
+        @import url("../static/mystyle.css");
+    </style>
+    <script>
+        window.onload = function () {
+            // http://223.194.159.225:8080/에서 224...의 IP만 끊어내는 코드
+            var url = new String(document.location);
+            ip = (url.split("//"))[1]; // ip = "223.194.159.225:8080/"
+            ip = (ip.split(":"))[0]; // ip = "223.194.159.225"
+            document.getElementById("broker").value = ip
+        }
+        function hideshow() { 
+            if(canvas.style.display == "block") 	canvas.style.display = "none"
+            else canvas.style.display = "block"
+        }  
+
+
+    </script>
+</head>
+
+<body>
+    <header>
+            <h1>Delivery Black Box</h1>
+    </header>    
+    <main>
+        <hr width="100%" color="black">
+        <form id="connection-form">
             <b>브로커 IP:</b>
             <input id="broker" type="text" name="broker" value=""><br>
             <b>포트 번호 :</b>
             <input id="port" type="text" name="port" value="9001"><br>
             <b>토픽 문자열 :</b>
             <input id="topic" type="text" name="topic" value="ultrasonic"><br><br>
-            <input type="button" onclick="startConnect()" value="블랙박스 ON">
-            <input type="button" onclick="startDisconnect()" value="블랙박스 OFF">
-         </form>
-         <hr>
-         <div id="messages"><strong>Motion detection-Log</strong></div>
-   </body>
+            <input type="button" class="Bstyle" onclick="startConnect()" value="블랙박스 ON">
+            <input type="button" class="Bstyle" onclick="startDisconnect()" value="블랙박스 OFF">
+            <input type="button" class="Bstyle" onclick="hideshow()" value="실시간화면 보기">
+            <canvas id="canvas" width="600" height="400"></canvas>
+        </form>
+    <footer>
+        <hr width="100%" color="black">
+        <div id="messages"><strong>Motion detection-Log</strong></div>
+    </footer>
+</body>
+
 </html>
