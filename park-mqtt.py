@@ -28,7 +28,6 @@ b=0
 
 while(True):
         distance = circuit.measureDistance()
-        client.publish("ultrasonic", distance, qos=0)
         time.sleep(1)
         cnt=cnt+1
         if cnt%2!=0:
@@ -36,12 +35,13 @@ while(True):
         else:
             b=distance
             if compare(a,b)==True:
+                client.publish("ultrasonic", distance, qos=0)
                 filename=datetime.datetime.now().strftime("%Y-%-m-%-d %H-%M-%S")
                 camera.resolution = (800, 600)
                 camera.start_preview()
-                camera.start_recording('./static/'+filename+'.h264')
+                camera.start_recording('./CCTV-record/'+filename+'.h264')
                 camera.wait_recording(10)
-                camera.capture('./static/'+filename+'.jpg', use_video_port=True)
+                camera.capture('./CCTV-image/'+filename+'.jpg', use_video_port=True)
                 camera.wait_recording(3)
                 camera.stop_recording()
 

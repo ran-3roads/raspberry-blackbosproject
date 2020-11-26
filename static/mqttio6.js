@@ -6,7 +6,7 @@ function startConnect() { // 접속을 시도하는 함수
     port = document.getElementById("port").value; // 브로커의 포트 번호
 
     // id가 message인 DIV 객체에 브로커의 IP와 포트 번호 출력
-    document.getElementById("messages").innerHTML += '<span>접속 : ' + broker + ' 포트 ' + port + '</span><br/>';
+    document.getElementById("messages").innerHTML += '<br><span>접속 : ' + broker + ' 포트 ' + port + '</span><br/>';
     document.getElementById("messages").innerHTML += '<span>사용자 ID : ' + clientID + '</span><br/>';
 
     // MQTT 메시지 전송 기능을 모두 가징 Paho client 객체 생성
@@ -41,11 +41,16 @@ function onConnectionLost(responseObject) { // 매개변수인 responseObject는
 }
 
 // 메시지가 도착할 때 호출되는 함수
+var now;
 function onMessageArrived(msg) { // 매개변수 msg는 도착한 MQTT 메시지를 담고 있는 객체
     console.log("onMessageArrived: " + msg.payloadString);
 
     // 도착한 메시지 출력
-    document.getElementById("messages").innerHTML += '<span>토픽 : ' + msg.destinationName + '  | ' + msg.payloadString + '</span><br/>';
+    if(msg.destinationName =="ultrasonic"){
+        now=new Date();
+        document.getElementById("messages").innerHTML += '<span>'+now+' 시간에 움직임이 감지되었습니다. </span><br/>';
+    }
+    else document.getElementById("messages").innerHTML += '<span>토픽 : ' + msg.destinationName + '  | ' + msg.payloadString + '</span><br/>';
 }
 
 // disconnection 버튼이 선택되었을 때 호출되는 함수
